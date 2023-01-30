@@ -261,7 +261,7 @@ public:
                         gko::dim<2>{mtx_->get_size()[0], mtx2_->get_size()[1]});
     }
 
-    void run() override { mtx_->apply(lend(mtx2_), lend(mtx_out_)); }
+    void run() override { mtx_->apply(mtx2_, mtx_out_); }
 
 private:
     const Mtx* mtx_;

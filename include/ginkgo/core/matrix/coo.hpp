@@ -210,24 +210,25 @@ public:
      *
      * @return this
      */
-    LinOp* apply2(const LinOp* b, LinOp* x)
+    LinOp* apply2(pointer_param<const LinOp> b, pointer_param<LinOp> x)
     {
-        this->validate_application_parameters(b, x);
+        this->validate_application_parameters(b.get(), x.get());
         auto exec = this->get_executor();
-        this->apply2_impl(make_temporary_clone(exec, b).get(),
-                          make_temporary_clone(exec, x).get());
+        this->apply2_impl(make_temporary_clone(exec, b.get()).get(),
+                          make_temporary_clone(exec, x.get()).get());
         return this;
     }
 
     /**
      * @copydoc apply2(cost LinOp *, LinOp *)
      */
-    const LinOp* apply2(const LinOp* b, LinOp* x) const
+    const LinOp* apply2(pointer_param<const LinOp> b,
+                        pointer_param<LinOp> x) const
     {
-        this->validate_application_parameters(b, x);
+        this->validate_application_parameters(b.get(), x.get());
         auto exec = this->get_executor();
-        this->apply2_impl(make_temporary_clone(exec, b).get(),
-                          make_temporary_clone(exec, x).get());
+        this->apply2_impl(make_temporary_clone(exec, b.get()).get(),
+                          make_temporary_clone(exec, x.get()).get());
         return this;
     }
 
@@ -240,28 +241,31 @@ public:
      *
      * @return this
      */
-    LinOp* apply2(const LinOp* alpha, const LinOp* b, LinOp* x)
+    LinOp* apply2(pointer_param<const LinOp> alpha,
+                  pointer_param<const LinOp> b, pointer_param<LinOp> x)
     {
-        this->validate_application_parameters(b, x);
+        this->validate_application_parameters(b.get(), x.get());
         GKO_ASSERT_EQUAL_DIMENSIONS(alpha, dim<2>(1, 1));
         auto exec = this->get_executor();
-        this->apply2_impl(make_temporary_clone(exec, alpha).get(),
-                          make_temporary_clone(exec, b).get(),
-                          make_temporary_clone(exec, x).get());
+        this->apply2_impl(make_temporary_clone(exec, alpha.get()).get(),
+                          make_temporary_clone(exec, b.get()).get(),
+                          make_temporary_clone(exec, x.get()).get());
         return this;
     }
 
     /**
      * @copydoc apply2(const LinOp *, const LinOp *, LinOp *)
      */
-    const LinOp* apply2(const LinOp* alpha, const LinOp* b, LinOp* x) const
+    const LinOp* apply2(pointer_param<const LinOp> alpha,
+                        pointer_param<const LinOp> b,
+                        pointer_param<LinOp> x) const
     {
-        this->validate_application_parameters(b, x);
+        this->validate_application_parameters(b.get(), x.get());
         GKO_ASSERT_EQUAL_DIMENSIONS(alpha, dim<2>(1, 1));
         auto exec = this->get_executor();
-        this->apply2_impl(make_temporary_clone(exec, alpha).get(),
-                          make_temporary_clone(exec, b).get(),
-                          make_temporary_clone(exec, x).get());
+        this->apply2_impl(make_temporary_clone(exec, alpha.get()).get(),
+                          make_temporary_clone(exec, b.get()).get(),
+                          make_temporary_clone(exec, x.get()).get());
         return this;
     }
 

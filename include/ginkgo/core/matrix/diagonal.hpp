@@ -143,13 +143,13 @@ public:
      * @param b  the input vector(s) on which the diagonal matrix is applied
      * @param x  the output vector(s) where the result is stored
      */
-    void rapply(const LinOp* b, LinOp* x) const
+    void rapply(pointer_param<const LinOp> b, pointer_param<LinOp> x) const
     {
         GKO_ASSERT_REVERSE_CONFORMANT(this, b);
         GKO_ASSERT_EQUAL_ROWS(b, x);
         GKO_ASSERT_EQUAL_COLS(this, x);
 
-        this->rapply_impl(b, x);
+        this->rapply_impl(b.get(), x.get());
     }
 
     /**
@@ -161,13 +161,14 @@ public:
      * is applied
      * @param x  the output vector(s) where the result is stored
      */
-    void inverse_apply(const LinOp* b, LinOp* x) const
+    void inverse_apply(pointer_param<const LinOp> b,
+                       pointer_param<LinOp> x) const
     {
         GKO_ASSERT_CONFORMANT(this, b);
         GKO_ASSERT_EQUAL_ROWS(b, x);
         GKO_ASSERT_EQUAL_ROWS(this, x);
 
-        this->inverse_apply_impl(b, x);
+        this->inverse_apply_impl(b.get(), x.get());
     }
 
     void read(const mat_data& data) override;

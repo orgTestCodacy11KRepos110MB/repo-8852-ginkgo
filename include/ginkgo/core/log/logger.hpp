@@ -604,6 +604,11 @@ public:
      */
     virtual void remove_logger(const Logger* logger) = 0;
 
+    void remove_logger(pointer_param<const Logger> logger)
+    {
+        remove_logger(logger.get());
+    }
+
     /**
      * Returns the vector containing all loggers registered at this object.
      *
@@ -641,13 +646,18 @@ public:
     {
         auto idx =
             find_if(begin(loggers_), end(loggers_),
-                    [&logger](const auto& l) { return lend(l) == logger; });
+                    [&logger](const auto& l) { return l.get() == logger; });
         if (idx != end(loggers_)) {
             loggers_.erase(idx);
         } else {
             throw OutOfBoundsError(__FILE__, __LINE__, loggers_.size(),
                                    loggers_.size());
         }
+    }
+
+    void remove_logger(pointer_param<const Logger> logger)
+    {
+        remove_logger(logger.get());
     }
 
     const std::vector<std::shared_ptr<const Logger>>& get_loggers()
